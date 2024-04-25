@@ -61,14 +61,6 @@ fn systemUpdate(forest: *[TOTAL_SIZE]u2) void {
     }
 }
 
-fn ColorPicker(T: u8) u8 {
-    return struct {
-        red: T,
-        green: T,
-        blue: T,
-        matt: T,
-    };
-}
 
 
 
@@ -94,13 +86,7 @@ pub fn main() !void {
     };
     defer c.SDL_DestroyRenderer(renderer);
 
-    // Creating our forest
-    //var buffer: [TOTAL_SIZE/4]u8 = undefined;
-    //var fixedBuffer = std.heap.FixedBufferAllocator.init(&buffer);
-    //const allocator = fixedBuffer.allocator();
-    //var forest = try allocator.alloc(u2, GRID_SIZE*GRID_SIZE);
-    //defer allocator.free(forest);
-
+    // Creating our forest & texture-buffer for display
     var textureBuffer: [TOTAL_SIZE]u32 = undefined;
     var forest: [TOTAL_SIZE]u2 = undefined;
 
@@ -116,7 +102,7 @@ pub fn main() !void {
 
     // Defining our print
     const stdout = std.io.getStdOut().writer();
-    // Defining our texture-buffer
+    // Defining our texture
     const theTexture: ?*c.SDL_Texture = c.SDL_CreateTexture(renderer, c.SDL_PIXELFORMAT_ARGB8888, c.SDL_TEXTUREACCESS_STREAMING, GRID_SIZE, GRID_SIZE);
 
     var quit = false;
@@ -152,8 +138,6 @@ pub fn main() !void {
 
 // Defining our render function
 fn render(forest: *[TOTAL_SIZE]u2, textureBuffer: *[TOTAL_SIZE]u32, theTexture: ?*c.SDL_Texture) void {
-    //_ = c.SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
-    //_ = c.SDL_RenderClear(renderer);
     for (0..GRID_SIZE) |i| {
         for (0..GRID_SIZE) |j| {
             const index: usize = IDX(i, j);
@@ -164,10 +148,7 @@ fn render(forest: *[TOTAL_SIZE]u2, textureBuffer: *[TOTAL_SIZE]u32, theTexture: 
                 2=> 0xFF0000,
                 else => unreachable,
             };
-            //std.debug.print("Val: {}", .{textureBuffer[index]});
         }
     }
     _ = c.SDL_UpdateTexture(theTexture, null, textureBuffer,  GRID_SIZE*@sizeOf(u32));
-
-
 }

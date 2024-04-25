@@ -1,4 +1,4 @@
-# This is the repository for the self-organized-critical model of the forest-fire created by Drossel and Schwabl (1992).
+# This is the repository for the self-organized-critical model of the forest-fire created by Drossel and Schwabl (1992), that can simulate up to a system of 2000x2000 in real-time (30fps) on a single thread!
 
 # The parameters to play with are p and f, which represent the probability of a burnt cell to become green (vegetated) and the probability of a green (vegetated) cell to sporadically go on fire (become burning). 
 
